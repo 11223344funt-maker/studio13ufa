@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1a0d14"/>
+  <rect x="0" y="0" width="1200" height="2" fill="#FF0FA0"/>
+  <text x="600" y="295" text-anchor="middle" fill="#FF0FA0" font-family="sans-serif" font-size="18" opacity="0.6">STUDIO 13</text>
+  <text x="600" y="335" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="sans-serif" font-size="13">Студия танца и растяжки · Уфа</text>
+  <circle cx="600" cy="245" r="30" fill="none" stroke="#FF0FA0" stroke-width="1" opacity="0.3"/>
+</svg>

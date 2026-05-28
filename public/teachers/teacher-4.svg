@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500">
+  <rect width="400" height="500" fill="#1a0d14"/>
+  <rect x="0" y="0" width="400" height="2" fill="#E91E8C"/>
+  <text x="200" y="230" text-anchor="middle" fill="#E91E8C" font-family="sans-serif" font-size="18" opacity="0.6">STUDIO 13</text>
+  <text x="200" y="270" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="sans-serif" font-size="13">Кристина · Kids</text>
+  <circle cx="200" cy="180" r="30" fill="none" stroke="#E91E8C" stroke-width="1" opacity="0.3"/>
+</svg>
