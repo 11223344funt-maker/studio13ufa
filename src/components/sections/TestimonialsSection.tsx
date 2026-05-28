@@ -60,10 +60,10 @@ export function TestimonialsSection() {
   );
 
   return (
-    <section ref={sectionRef} id="testimonials" className="py-section relative overflow-hidden">
+    <section ref={sectionRef} id="testimonials" className="py-section relative overflow-hidden dark-section">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] opacity-[0.04]"
-          style={{ background: "radial-gradient(ellipse, #FF0FA0 0%, transparent 70%)", filter: "blur(80px)" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] opacity-[0.06]"
+          style={{ background: "radial-gradient(ellipse, rgba(212,175,55,0.5) 0%, transparent 70%)", filter: "blur(80px)" }} />
       </div>
 
       <div className="max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16 mb-10 md:mb-14">
@@ -74,13 +74,11 @@ export function TestimonialsSection() {
         >
           <div className="section-tag mb-5">Отзывы</div>
           <h2
-            className="font-display uppercase leading-[0.9] text-white"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900 }}
+            className="font-display uppercase leading-[0.9]"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900, color: "#FAF6EE" }}
           >
             ЧТО ГОВОРЯТ{" "}
-            <span style={{ color: "#FF0FA0", textShadow: "0 0 30px rgba(255,15,160,0.6)" }}>
-              НАШИ
-            </span>
+            <span className="text-metallic-gold">НАШИ</span>
           </h2>
         </motion.div>
       </div>
@@ -93,38 +91,33 @@ export function TestimonialsSection() {
         ref={emblaRef}
       >
         <div className="flex gap-5 pl-6 md:pl-10 lg:pl-16">
-          {TESTIMONIALS.map((t, i) => (
+          {TESTIMONIALS.map((t) => (
             <div
               key={t.id}
-              className="flex-shrink-0 w-[300px] md:w-[360px] rounded-2xl p-7 flex flex-col gap-5"
+              className="flex-shrink-0 w-[300px] md:w-[360px] p-7 flex flex-col gap-5"
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(212,175,55,0.15)",
+                borderRadius: "4px",
               }}
             >
               {/* Quote mark */}
-              <div
-                className="font-display text-5xl leading-none"
-                style={{ color: t.color, opacity: 0.5, textShadow: `0 0 16px ${t.color}` }}
-              >
+              <div className="text-metallic-gold font-display text-5xl leading-none">
                 &ldquo;
               </div>
-              <p className="text-[rgba(255,255,255,0.7)] text-sm leading-relaxed flex-1">
+              <p className="text-[rgba(250,246,238,0.7)] text-sm leading-relaxed flex-1">
                 {t.text}
               </p>
-              <div className="flex items-center justify-between border-t border-[rgba(255,255,255,0.06)] pt-4">
+              <div className="flex items-center justify-between border-t pt-4" style={{ borderColor: "rgba(212,175,55,0.12)" }}>
                 <div>
-                  <p className="font-display text-white text-sm font-700" style={{ fontWeight: 700 }}>
+                  <p className="font-display text-[rgba(250,246,238,0.9)] text-sm" style={{ fontWeight: 700 }}>
                     {t.name}
                   </p>
-                  <p className="text-[9px] tracking-[0.25em] uppercase font-display mt-0.5" style={{ color: t.color }}>
+                  <p className="text-[9px] tracking-[0.25em] uppercase font-display mt-0.5 text-gold">
                     {t.direction}
                   </p>
                 </div>
-                <div
-                  className="flex gap-0.5"
-                  style={{ color: t.color }}
-                >
+                <div className="flex gap-0.5 text-gold">
                   {"★★★★★".split("").map((s, j) => (
                     <span key={j} className="text-sm">{s}</span>
                   ))}

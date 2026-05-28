@@ -17,10 +17,10 @@ export default function HomePage() {
     <main>
       <Header />
       <HeroSection />
-      <MarqueeStrip accent="magenta" />
+      <MarqueeStrip />
       <AboutSection />
       <DirectionsSection />
-      <MarqueeStrip accent="lime" reverse />
+      <MarqueeStrip reverse dark />
       <TeachersSection />
       <ScheduleSection />
       <PricingSection />

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { IconPin, IconPhone, IconClock, IconInstagram, IconTelegram, IconVK } from "@/components/ui/Icons";
 
 const LOCATIONS = [
   {
@@ -12,8 +13,6 @@ const LOCATIONS = [
     phone: "+7 (347) 000-00-01",
     hours: "Пн–Сб: 9:00–22:00 / Вс: 10:00–20:00",
     mapUrl: "https://yandex.ru/maps",
-    color: "#FF0FA0",
-    glow: "rgba(255,15,160,0.4)",
   },
   {
     id: 2,
@@ -23,9 +22,13 @@ const LOCATIONS = [
     phone: "+7 (347) 000-00-02",
     hours: "Пн–Вс: 10:00–22:00",
     mapUrl: "https://yandex.ru/maps",
-    color: "#B9FF00",
-    glow: "rgba(185,255,0,0.3)",
   },
+];
+
+const SOCIALS = [
+  { label: "Instagram", href: "https://instagram.com/studio13_ufa", Icon: IconInstagram },
+  { label: "Telegram",  href: "https://t.me/studio13ufa",           Icon: IconTelegram  },
+  { label: "VK",        href: "https://vk.com/studio13ufa",         Icon: IconVK        },
 ];
 
 export function ContactsSection() {
@@ -33,9 +36,9 @@ export function ContactsSection() {
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   return (
-    <section ref={sectionRef} id="contacts" className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden">
-      <div className="absolute left-1/4 bottom-0 w-64 h-64 opacity-[0.05] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FF0FA0 0%, transparent 70%)", filter: "blur(60px)" }} />
+    <section ref={sectionRef} id="contacts" className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden" style={{ background: "#F5EFE4" }}>
+      <div className="absolute left-1/4 bottom-0 w-64 h-64 opacity-[0.08] pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(212,175,55,0.6) 0%, transparent 70%)", filter: "blur(60px)" }} />
 
       <div className="max-w-[1440px] mx-auto">
         <motion.div
@@ -46,13 +49,11 @@ export function ContactsSection() {
         >
           <div className="section-tag mb-5">Контакты</div>
           <h2
-            className="font-display uppercase leading-[0.9] text-white"
+            className="font-display uppercase leading-[0.9] text-ink"
             style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900 }}
           >
             ГДЕ НАС{" "}
-            <span style={{ color: "#FF0FA0", textShadow: "0 0 30px rgba(255,15,160,0.6)" }}>
-              НАЙТИ
-            </span>
+            <span className="text-metallic-gold">НАЙТИ</span>
           </h2>
         </motion.div>
 
@@ -63,45 +64,33 @@ export function ContactsSection() {
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.07)",
-              }}
+              className="card-light overflow-hidden"
+              style={{ borderRadius: "4px" }}
             >
-              {/* Top neon line */}
+              {/* Gold top line */}
               <div
                 className="h-[2px]"
-                style={{
-                  background: `linear-gradient(90deg, transparent, ${loc.color}, transparent)`,
-                  boxShadow: `0 0 12px ${loc.glow}`,
-                }}
+                style={{ background: "linear-gradient(90deg, transparent, #D4AF37 30%, #F0D060 50%, #D4AF37 70%, transparent)" }}
               />
 
               <div className="p-7 md:p-8">
-                <p
-                  className="text-[9px] tracking-[0.35em] uppercase font-display mb-3"
-                  style={{ color: loc.color }}
-                >
+                <p className="text-[9px] tracking-[0.35em] uppercase font-display mb-3 text-gold">
                   Студия {String(i + 1).padStart(2, "0")}
                 </p>
-                <h3
-                  className="font-display uppercase text-white leading-tight mb-5"
-                  style={{ fontWeight: 900, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}
-                >
+                <h3 className="font-display uppercase text-ink leading-tight mb-5" style={{ fontWeight: 900, fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)" }}>
                   {loc.name}
                 </h3>
 
                 <div className="space-y-3 mb-6">
                   {[
-                    { icon: "📍", text: loc.address },
-                    { icon: "🚶", text: loc.metro },
-                    { icon: "📞", text: loc.phone },
-                    { icon: "🕐", text: loc.hours },
-                  ].map((item) => (
-                    <div key={item.text} className="flex items-start gap-3">
-                      <span className="text-sm flex-shrink-0 mt-0.5">{item.icon}</span>
-                      <span className="text-[rgba(255,255,255,0.6)] text-sm">{item.text}</span>
+                    { Icon: IconPin,   text: loc.address },
+                    { Icon: IconPin,   text: loc.metro },
+                    { Icon: IconPhone, text: loc.phone },
+                    { Icon: IconClock, text: loc.hours },
+                  ].map((item, j) => (
+                    <div key={j} className="flex items-start gap-3">
+                      <item.Icon size={18} className="flex-shrink-0 mt-0.5" />
+                      <span className="text-ink-3 text-sm">{item.text}</span>
                     </div>
                   ))}
                 </div>
@@ -110,45 +99,29 @@ export function ContactsSection() {
                   href={loc.mapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase font-display transition-all duration-300"
-                  style={{ color: loc.color }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.textShadow = `0 0 12px ${loc.glow}`;
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLAnchorElement).style.textShadow = "";
-                  }}
+                  className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase font-display text-gold hover:text-gold-dark transition-colors duration-300 cursor-none"
                 >
                   Открыть на карте →
                 </a>
               </div>
 
-              {/* Mini map placeholder */}
-              <div
-                className="h-40 relative overflow-hidden"
-                style={{ background: "rgba(255,255,255,0.02)" }}
-              >
+              {/* Map placeholder */}
+              <div className="h-40 relative overflow-hidden" style={{ background: "#F0EAE0" }}>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[rgba(255,255,255,0.1)] text-xs font-display tracking-widest uppercase">
+                  <span className="text-muted text-xs font-display tracking-widest uppercase">
                     Яндекс.Карта
                   </span>
                 </div>
-                {/* Decorative grid */}
-                <div className="absolute inset-0 opacity-5"
+                {/* Gold grid */}
+                <div className="absolute inset-0 opacity-10"
                   style={{
-                    backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+                    backgroundImage: "linear-gradient(rgba(212,175,55,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.5) 1px, transparent 1px)",
                     backgroundSize: "30px 30px",
                   }}
                 />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div
-                    className="w-4 h-4 rounded-full animate-ping"
-                    style={{ background: loc.color, opacity: 0.5 }}
-                  />
-                  <div
-                    className="w-4 h-4 rounded-full absolute inset-0"
-                    style={{ background: loc.color, boxShadow: `0 0 12px ${loc.glow}` }}
-                  />
+                  <div className="w-4 h-4 rounded-full animate-ping opacity-40" style={{ background: "#D4AF37" }} />
+                  <div className="w-4 h-4 rounded-full absolute inset-0" style={{ background: "#D4AF37", boxShadow: "0 0 12px rgba(212,175,55,0.6)" }} />
                 </div>
               </div>
             </motion.div>
@@ -160,31 +133,21 @@ export function ContactsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap gap-4 items-center"
+          className="flex flex-wrap gap-5 items-center"
         >
-          <span className="text-[10px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.3)]">
+          <span className="text-[10px] tracking-[0.3em] uppercase font-display text-muted">
             Мы в соцсетях:
           </span>
-          {[
-            { label: "Instagram", href: "https://instagram.com/studio13ufa", color: "#FF0FA0" },
-            { label: "Telegram", href: "https://t.me/studio13ufa", color: "#B9FF00" },
-            { label: "VK", href: "https://vk.com/studio13ufa", color: "#FFD166" },
-          ].map((s) => (
+          {SOCIALS.map(({ label, href, Icon }) => (
             <a
-              key={s.label}
-              href={s.href}
+              key={label}
+              href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover-link text-sm font-display font-700 transition-all duration-300"
-              style={{ color: s.color, textShadow: "none", fontWeight: 700 }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.textShadow = `0 0 14px ${s.color}`;
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.textShadow = "";
-              }}
+              className="flex items-center gap-2 text-ink-3 hover:text-gold transition-colors duration-300 cursor-none group"
             >
-              {s.label}
+              <Icon size={20} />
+              <span className="text-xs font-display tracking-wider">{label}</span>
             </a>
           ))}
         </motion.div>

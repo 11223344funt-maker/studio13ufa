@@ -1,34 +1,21 @@
 interface SectionLabelProps {
   number?: string;
   title: string;
-  accent?: "magenta" | "lime" | "gold";
+  dark?: boolean; // for dark-section usage
 }
 
-const COLORS = {
-  magenta: "#FF0FA0",
-  lime: "#B9FF00",
-  gold: "#FFD166",
-};
-
-export function SectionLabel({ number, title, accent = "magenta" }: SectionLabelProps) {
-  const color = COLORS[accent];
+export function SectionLabel({ number, title, dark = false }: SectionLabelProps) {
   return (
     <div className="flex items-center gap-3 mb-5">
       {number && (
         <span
-          className="font-display text-[10px] tracking-[0.3em]"
-          style={{ color, opacity: 0.7 }}
+          className="font-display text-[10px] tracking-[0.3em] opacity-50"
+          style={{ color: "#D4AF37" }}
         >
           {number}
         </span>
       )}
-      <div
-        className="section-tag"
-        style={{
-          color,
-          borderColor: `rgba(${accent === "magenta" ? "255,15,160" : accent === "lime" ? "185,255,0" : "255,209,102"},0.35)`,
-        }}
-      >
+      <div className={`section-tag ${dark ? "dark-section" : ""}`}>
         {title}
       </div>
     </div>

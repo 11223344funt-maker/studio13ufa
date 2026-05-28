@@ -4,6 +4,7 @@ import { useRef, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import gsap from "gsap";
+import { IconInstagram } from "@/components/ui/Icons";
 
 const TEACHERS = [
   {
@@ -13,8 +14,6 @@ const TEACHERS = [
     role: "Heels / Lady Style",
     exp: "8 лет",
     bio: "Победитель Всероссийских соревнований по Heels. Ставит на технику и уверенность — каждая ученица выходит с новым ощущением тела.",
-    color: "#FF0FA0",
-    glow: "rgba(255,15,160,0.5)",
     img: "/teachers/teacher-1.svg",
     instagram: "@nastya_heels",
   },
@@ -25,8 +24,6 @@ const TEACHERS = [
     role: "Hip-Hop / Breaking",
     exp: "10 лет",
     bio: "Freestyle champion. Соединяет уличную культуру с академической техникой. Его урок — это всегда событие.",
-    color: "#FFD166",
-    glow: "rgba(255,209,102,0.5)",
     img: "/teachers/teacher-2.svg",
     instagram: "@dmitry_hiphop",
   },
@@ -37,8 +34,6 @@ const TEACHERS = [
     role: "Contemporary / Stretch",
     exp: "6 лет",
     bio: "Хореограф с образованием классического балета. Работает с телом мягко, но результат всегда глубокий.",
-    color: "#B9FF00",
-    glow: "rgba(185,255,0,0.4)",
     img: "/teachers/teacher-3.svg",
     instagram: "@alina_contemporary",
   },
@@ -49,8 +44,6 @@ const TEACHERS = [
     role: "Kids Dance / Lady Style",
     exp: "5 лет",
     bio: "Специалист по детской хореографии. Дети обожают её занятия за игровой подход и неиссякаемую энергию.",
-    color: "#E91E8C",
-    glow: "rgba(233,30,140,0.45)",
     img: "/teachers/teacher-4.svg",
     instagram: "@kristina_kids",
   },
@@ -59,184 +52,122 @@ const TEACHERS = [
 function TiltCard({ teacher, index }: { teacher: (typeof TEACHERS)[number]; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const sheenRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const card = cardRef.current;
-      const sheen = sheenRef.current;
-      const content = contentRef.current;
-      if (!card) return;
-
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-      gsap.to(card, {
-        rotateX: -y * 14,
-        rotateY: x * 14,
-        duration: 0.4,
-        ease: "power2.out",
-        transformPerspective: 900,
-      });
-
-      if (content) {
-        gsap.to(content, {
-          x: x * 6,
-          y: y * 6,
-          duration: 0.4,
-          ease: "power2.out",
-        });
-      }
-
-      if (sheen) {
-        const px = ((e.clientX - rect.left) / rect.width) * 100;
-        const py = ((e.clientY - rect.top) / rect.height) * 100;
-        gsap.to(sheen, {
-          opacity: 0.12,
-          duration: 0.3,
-        });
-        sheen.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.9) 0%, transparent 60%)`;
-      }
-    },
-    []
-  );
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    const sheen = sheenRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width - 0.5;
+    const cy = (e.clientY - rect.top)  / rect.height - 0.5;
+    gsap.to(card, {
+      rotateY: cx * 10,
+      rotateX: -cy * 8,
+      duration: 0.4,
+      ease: "power2.out",
+      transformPerspective: 800,
+    });
+    if (sheen) {
+      const px = ((e.clientX - rect.left) / rect.width) * 100;
+      const py = ((e.clientY - rect.top) / rect.height) * 100;
+      sheen.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(212,175,55,0.15) 0%, transparent 55%)`;
+      gsap.to(sheen, { opacity: 1, duration: 0.3 });
+    }
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
     const card = cardRef.current;
     const sheen = sheenRef.current;
-    const content = contentRef.current;
-
-    if (card) {
-      gsap.to(card, {
-        rotateX: 0, rotateY: 0,
-        duration: 0.7,
-        ease: "elastic.out(1, 0.4)",
-        transformPerspective: 900,
-      });
-    }
-    if (content) {
-      gsap.to(content, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
-    }
-    if (sheen) {
-      gsap.to(sheen, { opacity: 0, duration: 0.4 });
-    }
+    if (!card) return;
+    gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.7, ease: "elastic.out(1, 0.4)" });
+    if (sheen) gsap.to(sheen, { opacity: 0, duration: 0.5 });
   }, []);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="perspective-card"
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
     >
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative rounded-2xl overflow-hidden group tilt-inner"
+        className="relative overflow-hidden group cursor-none"
         style={{
-          background: "rgba(255,255,255,0.03)",
-          border: `1px solid rgba(255,255,255,0.07)`,
-          cursor: "none",
+          background: "#FFFFFF",
+          border: "1px solid rgba(212,175,55,0.15)",
+          borderRadius: "4px",
+          boxShadow: "0 2px 12px rgba(19,14,8,0.06)",
+          transition: "border-color 0.3s, box-shadow 0.3s",
           willChange: "transform",
         }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(212,175,55,0.4)";
+          (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 40px rgba(212,175,55,0.12)";
+        }}
+        onMouseOut={(e) => {
+          (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(212,175,55,0.15)";
+          (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 12px rgba(19,14,8,0.06)";
+        }}
       >
-        {/* Sheen overlay */}
-        <div ref={sheenRef} className="absolute inset-0 z-20 pointer-events-none opacity-0" />
+        {/* Sheen */}
+        <div ref={sheenRef} className="absolute inset-0 opacity-0 pointer-events-none z-10" />
 
-        {/* Neon top border */}
+        {/* Gold top border on hover */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px] z-10"
-          style={{
-            background: `linear-gradient(90deg, transparent, ${teacher.color}, transparent)`,
-            boxShadow: `0 0 12px ${teacher.glow}`,
-          }}
+          className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          style={{ background: "linear-gradient(90deg, transparent, #D4AF37, transparent)" }}
         />
 
-        <div ref={contentRef} className="flex flex-col h-full">
-          {/* Photo area */}
-          <div className="relative h-64 md:h-72 overflow-hidden">
-            <div
-              className="absolute inset-0 z-10"
-              style={{
-                background: `linear-gradient(to bottom, transparent 50%, rgba(8,5,8,0.95) 100%)`,
-              }}
-            />
-            <div
-              className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              style={{
-                background: `radial-gradient(circle at 50% 120%, ${teacher.glow} 0%, transparent 60%)`,
-              }}
-            />
-            {/* Placeholder gradient if no image */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-              }}
-            />
-            <Image
-              src={teacher.img}
-              alt={`${teacher.name} ${teacher.surname}`}
-              fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 300px"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-            />
-            {/* Number accent */}
-            <div className="absolute top-4 right-4 z-20">
-              <span
-                className="font-display text-[10px] tracking-[0.3em] px-2.5 py-1 border font-900"
-                style={{
-                  color: teacher.color,
-                  borderColor: `rgba(255,255,255,0.12)`,
-                  background: "rgba(8,5,8,0.7)",
-                  fontWeight: 900,
-                }}
-              >
-                {String(index + 1).padStart(2, "0")}
-              </span>
-            </div>
+        {/* Image */}
+        <div className="relative h-64 overflow-hidden bg-bg-alt">
+          <Image
+            src={teacher.img}
+            alt={`${teacher.name} ${teacher.surname}`}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 25vw"
+          />
+          {/* Subtle gold overlay */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(212,175,55,0.12) 100%)" }}
+          />
+          {/* Exp badge */}
+          <div
+            className="absolute top-3 right-3 px-2.5 py-1 font-display text-[10px] tracking-[0.2em] uppercase"
+            style={{
+              background: "rgba(253,249,243,0.9)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(212,175,55,0.3)",
+              color: "#9A7400",
+            }}
+          >
+            {teacher.exp}
           </div>
+        </div>
 
-          {/* Info */}
-          <div className="p-6 flex flex-col gap-3">
-            <div>
-              <p
-                className="text-[9px] tracking-[0.35em] uppercase font-display mb-1"
-                style={{ color: teacher.color }}
-              >
-                {teacher.role}
-              </p>
-              <h3
-                className="font-display uppercase leading-tight"
-                style={{ fontWeight: 900, fontSize: "clamp(1.2rem, 2.5vw, 1.5rem)", color: "#fff" }}
-              >
-                {teacher.name}
-                <br />
-                <span style={{ color: teacher.color, textShadow: `0 0 16px ${teacher.glow}` }}>
-                  {teacher.surname}
-                </span>
-              </h3>
-            </div>
-            <p className="text-[rgba(255,255,255,0.45)] text-xs leading-relaxed">
-              {teacher.bio}
-            </p>
-            <div className="flex items-center justify-between mt-2 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-              <div>
-                <span className="text-[8px] tracking-[0.25em] text-[rgba(255,255,255,0.3)] uppercase font-display block">
-                  Опыт
-                </span>
-                <span className="font-display text-sm" style={{ color: teacher.color, fontWeight: 700 }}>
-                  {teacher.exp}
-                </span>
-              </div>
-              <span className="text-[10px] text-[rgba(255,255,255,0.3)] font-body">
-                {teacher.instagram}
-              </span>
-            </div>
+        {/* Info */}
+        <div className="p-6">
+          <div className="mb-1">
+            <span
+              className="font-display text-[10px] tracking-[0.25em] uppercase"
+              style={{ color: "#D4AF37" }}
+            >
+              {teacher.role}
+            </span>
+          </div>
+          <h3 className="font-display text-xl font-black text-ink uppercase mb-3" style={{ fontWeight: 900 }}>
+            {teacher.name} {teacher.surname}
+          </h3>
+          <p className="text-ink-3 text-xs leading-relaxed mb-4">{teacher.bio}</p>
+
+          {/* Instagram */}
+          <div className="flex items-center gap-2 pt-3" style={{ borderTop: "1px solid rgba(212,175,55,0.12)" }}>
+            <IconInstagram size={16} />
+            <span className="text-[11px] text-muted font-body tracking-wide">{teacher.instagram}</span>
           </div>
         </div>
       </div>
@@ -249,36 +180,36 @@ export function TeachersSection() {
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   return (
-    <section ref={sectionRef} id="teachers" className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden">
-      <div className="absolute -right-40 top-1/3 w-80 h-80 opacity-[0.06] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FFD166 0%, transparent 70%)", filter: "blur(60px)" }} />
-
+    <section
+      ref={sectionRef}
+      id="teachers"
+      className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden"
+      style={{ background: "#FDF9F3" }}
+    >
       <div className="max-w-[1440px] mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-12 md:mb-16"
+          transition={{ duration: 0.8 }}
+          className="mb-12 md:mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-4"
         >
-          <div className="section-tag mb-5">Преподаватели</div>
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+          <div>
+            <div className="section-tag mb-5">Педагоги</div>
             <h2
-              className="font-display uppercase leading-[0.9] text-white"
+              className="font-display uppercase text-ink leading-[0.9]"
               style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 900 }}
             >
-              КОМУ{" "}
-              <span style={{ color: "#FFD166", textShadow: "0 0 30px rgba(255,209,102,0.5)" }}>
-                ДОВЕРЯТЬ
-              </span>
-              <br />
-              СВОЁ ТЕЛО
+              КОМАНДА{" "}
+              <span className="text-metallic-gold">МАСТЕРОВ</span>
             </h2>
-            <p className="text-[rgba(255,255,255,0.45)] text-sm max-w-xs leading-relaxed">
-              Опытные хореографы, которые горят своим делом и передают энергию каждому ученику.
-            </p>
           </div>
+          <p className="text-ink-3 text-sm leading-relaxed max-w-xs">
+            Каждый педагог — практикующий хореограф с соревновательным опытом и любовью к своему делу.
+          </p>
         </motion.div>
 
+        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {TEACHERS.map((t, i) => (
             <TiltCard key={t.id} teacher={t} index={i} />

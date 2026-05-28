@@ -47,7 +47,7 @@ export function CustomCursor() {
       gsap.to(ring, {
         width: 56,
         height: 56,
-        borderColor: "rgba(255,15,160,0.9)",
+        borderColor: "rgba(212,175,55,0.9)",
         duration: 0.3,
         ease: "power2.out",
       });
@@ -63,7 +63,7 @@ export function CustomCursor() {
       gsap.to(ring, {
         width: 36,
         height: 36,
-        borderColor: "rgba(255,15,160,0.6)",
+        borderColor: "rgba(212,175,55,0.5)",
         duration: 0.4,
         ease: "power2.out",
       });

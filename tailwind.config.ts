@@ -9,76 +9,76 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#080508",
-        "bg-card": "rgba(255,255,255,0.04)",
-        // Neon accents
-        magenta: "#FF0FA0",
-        fuchsia: "#E91E8C",
-        "lime-neon": "#B9FF00",
-        mint: "#00FFB2",
-        // Metallic gold
-        gold: "#FFD166",
-        "gold-warm": "#F0A500",
-        // Legacy / dark
-        burgundy: "#6B0028",
-        "dark-plum": "#1A0818",
-        ivory: "#F5F0E8",
-        obsidian: "#080508",
+        // ── Light base ──────────────────────────────────────
+        bg:        "#FDF9F3",
+        "bg-alt":  "#F5EFE4",
+        "bg-card": "#FFFFFF",
+        "bg-dark": "#130E08",   // contrast dark sections
+        "bg-dark2":"#1E1710",
+
+        // ── Gold metallic ───────────────────────────────────
+        gold:        "#D4AF37",
+        "gold-light":"#F0D860",
+        "gold-dark": "#9A7400",
+        "gold-pale":  "#FDF3D3",
+
+        // ── Silver metallic ─────────────────────────────────
+        silver:      "#B8B8B8",
+        "silver-light":"#EFEFEF",
+        "silver-dark":"#7A7A7A",
+
+        // ── Rose gold ────────────────────────────────────────
+        "rose-gold":      "#C9826A",
+        "rose-gold-light":"#E8B0A0",
+        "rose-gold-dark": "#8B4030",
+
+        // ── Text ─────────────────────────────────────────────
+        ink:     "#130E08",
+        "ink-2": "#3D3020",
+        "ink-3": "#7A6248",
+        muted:   "#B8A898",
+
+        // ── Legacy neon (kept for admin) ─────────────────────
+        magenta:    "#FF0FA0",
+        "lime-neon":"#B9FF00",
       },
       fontFamily: {
         display: ["var(--font-unbounded)", "Impact", "sans-serif"],
-        body: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        // kept for minor legacy use
-        serif: ["var(--font-cormorant)", "Georgia", "serif"],
+        body:    ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        serif:   ["var(--font-cormorant)", "Georgia", "serif"],
       },
       fontSize: {
-        "display-3xl": ["clamp(4.5rem, 14vw, 14rem)", { lineHeight: "0.88", letterSpacing: "-0.03em" }],
-        "display-2xl": ["clamp(3.5rem, 10vw, 10rem)", { lineHeight: "0.9", letterSpacing: "-0.02em" }],
-        "display-xl": ["clamp(2.5rem, 6vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.01em" }],
-        "display-lg": ["clamp(2rem, 4vw, 4rem)", { lineHeight: "1" }],
-        "display-md": ["clamp(1.5rem, 3vw, 2.5rem)", { lineHeight: "1.05" }],
-        "label": ["clamp(0.65rem, 1vw, 0.75rem)", { lineHeight: "1", letterSpacing: "0.25em" }],
+        "display-3xl": ["clamp(4rem, 13vw, 13rem)", { lineHeight: "0.88", letterSpacing: "-0.03em" }],
+        "display-2xl": ["clamp(3rem, 9vw, 9rem)",  { lineHeight: "0.9",  letterSpacing: "-0.02em" }],
+        "display-xl":  ["clamp(2.2rem, 5.5vw, 5.5rem)", { lineHeight: "0.95" }],
+        "display-lg":  ["clamp(1.8rem, 3.5vw, 3.5rem)", { lineHeight: "1" }],
+        "label":       ["clamp(0.6rem, 0.9vw, 0.7rem)", { lineHeight: "1", letterSpacing: "0.28em" }],
       },
       spacing: {
-        section: "clamp(5rem, 10vw, 9rem)",
-        "section-sm": "clamp(3rem, 6vw, 5rem)",
-      },
-      screens: {
-        xs: "480px",
-      },
-      transitionTimingFunction: {
-        "expo-out": "cubic-bezier(0.16, 1, 0.3, 1)",
-        "spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        section:    "clamp(5rem, 10vw, 9rem)",
+        "section-sm":"clamp(3rem, 6vw, 5rem)",
       },
       animation: {
-        marquee: "marquee 30s linear infinite",
-        "marquee-rev": "marqueeRev 30s linear infinite",
-        "pulse-glow": "pulseGlow 2.5s ease-in-out infinite",
-        blob: "blob 8s ease-in-out infinite",
-        scanline: "scanlines 6s linear infinite",
+        marquee:       "marquee 32s linear infinite",
+        "marquee-rev": "marqueeRev 32s linear infinite",
+        shimmer:       "shimmerGold 2.5s linear infinite",
+        "pulse-gold":  "pulseGold 3s ease-in-out infinite",
+        float:         "float 6s ease-in-out infinite",
       },
       keyframes: {
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
+        marquee:    { "0%": { transform: "translateX(0)" },    "100%": { transform: "translateX(-50%)" } },
+        marqueeRev: { "0%": { transform: "translateX(-50%)" }, "100%": { transform: "translateX(0)" } },
+        shimmerGold: {
+          "0%":   { backgroundPosition: "200% center" },
+          "100%": { backgroundPosition: "-200% center" },
         },
-        marqueeRev: {
-          "0%": { transform: "translateX(-50%)" },
-          "100%": { transform: "translateX(0)" },
+        pulseGold: {
+          "0%, 100%": { opacity: "0.7" },
+          "50%":      { opacity: "1" },
         },
-        pulseGlow: {
-          "0%, 100%": { opacity: "0.6" },
-          "50%": { opacity: "1" },
-        },
-        blob: {
-          "0%, 100%": { borderRadius: "60% 40% 70% 30% / 40% 60% 30% 70%" },
-          "25%": { borderRadius: "30% 70% 40% 60% / 60% 30% 70% 40%" },
-          "50%": { borderRadius: "50% 50% 60% 40% / 30% 70% 40% 60%" },
-          "75%": { borderRadius: "70% 30% 30% 70% / 70% 40% 60% 30%" },
-        },
-        scanlines: {
-          "0%": { backgroundPosition: "0 0" },
-          "100%": { backgroundPosition: "0 100%" },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%":      { transform: "translateY(-12px)" },
         },
       },
     },

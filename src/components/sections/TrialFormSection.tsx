@@ -8,78 +8,66 @@ import { z } from "zod";
 import gsap from "gsap";
 
 const schema = z.object({
-  name: z.string().min(2, "Введите имя (мин. 2 символа)"),
-  phone: z.string().regex(/^[\+7\d][\d\s\-\(\)]{9,}$/, "Введите корректный номер"),
+  name:      z.string().min(2, "Введите имя (мин. 2 символа)"),
+  phone:     z.string().regex(/^[\+7\d][\d\s\-\(\)]{9,}$/, "Введите корректный номер"),
   direction: z.string().min(1, "Выберите направление"),
-  location: z.string().min(1, "Выберите студию"),
-  comment: z.string().optional(),
+  location:  z.string().min(1, "Выберите студию"),
+  comment:   z.string().optional(),
 });
-
 type FormData = z.infer<typeof schema>;
 
 const DIRECTIONS_LIST = [
   "Heels", "Contemporary", "Hip-Hop", "Lady Style", "Stretching",
   "Kids Dance (детям)", "Не знаю, посоветуйте",
 ];
-
 const LOCATIONS = ["Студия на Ленина", "Студия в Центре"];
+
+const PERKS = [
+  { icon: "⚡", text: "Ответим в течение 15 минут" },
+  { icon: "🎯", text: "Подберём подходящую группу по уровню" },
+  { icon: "✨", text: "Без обязательств — просто попробуй" },
+];
 
 export function TrialFormSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const successRef = useRef<HTMLDivElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const formRef    = useRef<HTMLFormElement>(null);
+  const btnRef     = useRef<HTMLButtonElement>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]     = useState(false);
   const inView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
-    // Simulate network
     await new Promise((r) => setTimeout(r, 1200));
     console.log("Form data:", data);
-
-    // Wow submit animation
     if (btnRef.current) {
-      gsap.to(btnRef.current, {
-        scale: 1.05,
-        duration: 0.15,
-        yoyo: true,
-        repeat: 1,
-      });
+      gsap.to(btnRef.current, { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1 });
     }
-
     setLoading(false);
     setSubmitted(true);
     reset();
-
-    // Burst particles
-    setTimeout(() => {
-      if (!submitted) {
-        // Simple CSS class trigger for burst
-      }
-    }, 100);
   };
 
   return (
     <section
       ref={sectionRef}
       id="trial"
-      className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden"
+      className="py-section px-6 md:px-10 lg:px-16 relative overflow-hidden dark-section"
     >
-      {/* Background blobs */}
+      {/* Metallic gold glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] opacity-[0.08]"
-          style={{ background: "radial-gradient(ellipse, #FF0FA0 0%, transparent 60%)", filter: "blur(80px)" }} />
-        <div className="absolute bottom-0 right-0 w-80 h-80 opacity-[0.05]"
-          style={{ background: "radial-gradient(circle, #B9FF00 0%, transparent 70%)", filter: "blur(60px)" }} />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px]"
+          style={{ background: "radial-gradient(ellipse, rgba(212,175,55,0.08) 0%, transparent 60%)", filter: "blur(80px)" }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-80 h-80"
+          style={{ background: "radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%)", filter: "blur(60px)" }}
+        />
       </div>
 
       <div className="max-w-[1440px] mx-auto">
@@ -93,34 +81,25 @@ export function TrialFormSection() {
           >
             <div className="section-tag mb-6">Пробное занятие</div>
             <h2
-              className="font-display uppercase leading-[0.9] text-white mb-6"
-              style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900 }}
+              className="font-display uppercase leading-[0.9] mb-6"
+              style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 900, color: "#FAF6EE" }}
             >
               ПЕРВЫЙ{" "}
-              <span style={{ color: "#FF0FA0", textShadow: "0 0 30px rgba(255,15,160,0.7)" }}>
-                ШАГ
-              </span>
+              <span className="text-metallic-gold">ШАГ</span>
               <br />
               ВСЕГДА{" "}
-              <span style={{ color: "#B9FF00", textShadow: "0 0 24px rgba(185,255,0,0.5)" }}>
-                БЕСПЛАТНЫЙ
-              </span>
+              <span className="text-metallic-gold">БЕСПЛАТНЫЙ</span>
             </h2>
-            <p className="text-[rgba(255,255,255,0.55)] text-sm leading-relaxed mb-8 max-w-sm">
+            <p className="text-sm leading-relaxed mb-8 max-w-sm" style={{ color: "rgba(250,246,238,0.55)" }}>
               Запишись на пробное занятие — ощути атмосферу Studio 13 без обязательств.
               Первый класс бесплатно для всех новых учеников.
             </p>
 
-            {/* Perks */}
             <div className="flex flex-col gap-4">
-              {[
-                { icon: "⚡", text: "Ответим в течение 15 минут" },
-                { icon: "🎯", text: "Подберём подходящую группу по уровню" },
-                { icon: "🔥", text: "Без обязательств — просто попробуй" },
-              ].map((p) => (
+              {PERKS.map((p) => (
                 <div key={p.text} className="flex items-center gap-4">
                   <span className="text-xl">{p.icon}</span>
-                  <span className="text-sm text-[rgba(255,255,255,0.6)]">{p.text}</span>
+                  <span className="text-sm" style={{ color: "rgba(250,246,238,0.6)" }}>{p.text}</span>
                 </div>
               ))}
             </div>
@@ -133,26 +112,25 @@ export function TrialFormSection() {
             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
             <div
-              className="relative rounded-2xl overflow-hidden"
+              className="relative overflow-hidden"
               style={{
                 background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,15,160,0.15)",
+                border: "1px solid rgba(212,175,55,0.2)",
+                borderRadius: "4px",
               }}
             >
-              {/* Top neon line */}
+              {/* Gold top line */}
               <div
                 className="absolute top-0 left-0 right-0 h-[2px]"
                 style={{
-                  background: "linear-gradient(90deg, transparent, #FF0FA0, transparent)",
-                  boxShadow: "0 0 20px rgba(255,15,160,0.8)",
+                  background: "linear-gradient(90deg, transparent, #D4AF37 30%, #F0D060 50%, #D4AF37 70%, transparent)",
+                  boxShadow: "0 0 12px rgba(212,175,55,0.4)",
                 }}
               />
 
               <AnimatePresence mode="wait">
                 {submitted ? (
-                  // Success state
                   <motion.div
-                    ref={successRef}
                     key="success"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -160,47 +138,43 @@ export function TrialFormSection() {
                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     className="flex flex-col items-center justify-center py-20 px-8 text-center gap-6"
                   >
-                    {/* Animated checkmark */}
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                       className="w-20 h-20 rounded-full flex items-center justify-center text-3xl relative"
                       style={{
-                        background: "rgba(255,15,160,0.1)",
-                        border: "2px solid #FF0FA0",
-                        boxShadow: "0 0 30px rgba(255,15,160,0.4), 0 0 60px rgba(255,15,160,0.15)",
+                        background: "rgba(212,175,55,0.1)",
+                        border: "2px solid #D4AF37",
+                        boxShadow: "0 0 30px rgba(212,175,55,0.35), 0 0 60px rgba(212,175,55,0.12)",
+                        color: "#D4AF37",
                       }}
                     >
                       ✓
-                      <div className="absolute inset-0 rounded-full animate-ping opacity-20"
-                        style={{ background: "#FF0FA0" }} />
+                      <div className="absolute inset-0 rounded-full animate-ping opacity-15"
+                        style={{ background: "#D4AF37" }} />
                     </motion.div>
-
                     <div>
                       <h3
-                        className="font-display uppercase text-white mb-2"
+                        className="font-display uppercase mb-2 text-metallic-gold"
                         style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", fontWeight: 900 }}
                       >
                         ОТЛИЧНО!
                       </h3>
-                      <p className="text-[rgba(255,255,255,0.55)] text-sm leading-relaxed">
+                      <p className="text-sm leading-relaxed" style={{ color: "rgba(250,246,238,0.55)" }}>
                         Заявка принята! Мы свяжемся с тобой в ближайшие{" "}
-                        <span style={{ color: "#FF0FA0" }}>15 минут.</span>
-                        <br />
-                        Готовься — это будет 🔥
+                        <span className="text-gold">15 минут.</span>
+                        <br />Готовься — это будет незабываемо ✨
                       </p>
                     </div>
-
                     <button
                       onClick={() => setSubmitted(false)}
-                      className="btn-outline-neon px-6 py-3 text-xs"
+                      className="btn-outline-gold px-6 py-3 text-xs"
                     >
                       Записаться снова
                     </button>
                   </motion.div>
                 ) : (
-                  // Form
                   <motion.form
                     key="form"
                     ref={formRef}
@@ -212,94 +186,59 @@ export function TrialFormSection() {
                   >
                     <div className="grid grid-cols-2 gap-4">
                       <div className="col-span-2 md:col-span-1">
-                        <label className="block text-[9px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.4)] mb-2">
+                        <label className="block text-[9px] tracking-[0.3em] uppercase font-display mb-2" style={{ color: "rgba(250,246,238,0.4)" }}>
                           Имя *
                         </label>
-                        <input
-                          {...register("name")}
-                          placeholder="Как тебя зовут?"
-                          className={`form-input ${errors.name ? "error" : ""}`}
-                        />
-                        {errors.name && (
-                          <p className="text-[10px] mt-1" style={{ color: "#ff6b6b" }}>
-                            {errors.name.message}
-                          </p>
-                        )}
+                        <input {...register("name")} placeholder="Как тебя зовут?"
+                          className={`form-input ${errors.name ? "error" : ""}`} />
+                        {errors.name && <p className="text-[10px] mt-1 text-red-400">{errors.name.message}</p>}
                       </div>
                       <div className="col-span-2 md:col-span-1">
-                        <label className="block text-[9px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.4)] mb-2">
+                        <label className="block text-[9px] tracking-[0.3em] uppercase font-display mb-2" style={{ color: "rgba(250,246,238,0.4)" }}>
                           Телефон *
                         </label>
-                        <input
-                          {...register("phone")}
-                          placeholder="+7 (___) ___-__-__"
-                          className={`form-input ${errors.phone ? "error" : ""}`}
-                        />
-                        {errors.phone && (
-                          <p className="text-[10px] mt-1" style={{ color: "#ff6b6b" }}>
-                            {errors.phone.message}
-                          </p>
-                        )}
+                        <input {...register("phone")} placeholder="+7 (___) ___-__-__"
+                          className={`form-input ${errors.phone ? "error" : ""}`} />
+                        {errors.phone && <p className="text-[10px] mt-1 text-red-400">{errors.phone.message}</p>}
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.4)] mb-2">
+                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display mb-2" style={{ color: "rgba(250,246,238,0.4)" }}>
                         Направление *
                       </label>
-                      <select
-                        {...register("direction")}
-                        className={`form-input ${errors.direction ? "error" : ""}`}
-                      >
+                      <select {...register("direction")} className={`form-input ${errors.direction ? "error" : ""}`}>
                         <option value="">Выбери стиль...</option>
-                        {DIRECTIONS_LIST.map((d) => (
-                          <option key={d} value={d}>{d}</option>
-                        ))}
+                        {DIRECTIONS_LIST.map((d) => <option key={d} value={d}>{d}</option>)}
                       </select>
-                      {errors.direction && (
-                        <p className="text-[10px] mt-1" style={{ color: "#ff6b6b" }}>
-                          {errors.direction.message}
-                        </p>
-                      )}
+                      {errors.direction && <p className="text-[10px] mt-1 text-red-400">{errors.direction.message}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.4)] mb-2">
+                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display mb-2" style={{ color: "rgba(250,246,238,0.4)" }}>
                         Студия *
                       </label>
-                      <select
-                        {...register("location")}
-                        className={`form-input ${errors.location ? "error" : ""}`}
-                      >
+                      <select {...register("location")} className={`form-input ${errors.location ? "error" : ""}`}>
                         <option value="">Выбери студию...</option>
-                        {LOCATIONS.map((l) => (
-                          <option key={l} value={l}>{l}</option>
-                        ))}
+                        {LOCATIONS.map((l) => <option key={l} value={l}>{l}</option>)}
                       </select>
-                      {errors.location && (
-                        <p className="text-[10px] mt-1" style={{ color: "#ff6b6b" }}>
-                          {errors.location.message}
-                        </p>
-                      )}
+                      {errors.location && <p className="text-[10px] mt-1 text-red-400">{errors.location.message}</p>}
                     </div>
 
                     <div>
-                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display text-[rgba(255,255,255,0.4)] mb-2">
+                      <label className="block text-[9px] tracking-[0.3em] uppercase font-display mb-2" style={{ color: "rgba(250,246,238,0.4)" }}>
                         Комментарий
                       </label>
-                      <textarea
-                        {...register("comment")}
-                        placeholder="Уровень, пожелания, вопросы..."
-                        rows={3}
-                        className="form-input resize-none"
-                      />
+                      <textarea {...register("comment")} placeholder="Уровень, пожелания, вопросы..."
+                        rows={3} className="form-input resize-none" />
                     </div>
 
                     <button
                       ref={btnRef}
                       type="submit"
                       disabled={loading}
-                      className="btn-neon w-full py-4 mt-2 relative overflow-hidden"
+                      className="btn-gold metallic-shine w-full py-4 mt-2"
+                      style={{ borderRadius: "2px" }}
                     >
                       <span className="flex items-center justify-center gap-3">
                         {loading ? (
@@ -307,20 +246,17 @@ export function TrialFormSection() {
                             <motion.div
                               animate={{ rotate: 360 }}
                               transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-                              className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
+                              className="w-4 h-4 border-2 border-ink border-t-transparent rounded-full"
                             />
                             Отправляем...
                           </>
                         ) : (
-                          <>
-                            ЗАПИСАТЬСЯ БЕСПЛАТНО
-                            <span>→</span>
-                          </>
+                          <>ЗАПИСАТЬСЯ БЕСПЛАТНО →</>
                         )}
                       </span>
                     </button>
 
-                    <p className="text-[9px] text-[rgba(255,255,255,0.25)] text-center">
+                    <p className="text-[9px] text-center" style={{ color: "rgba(250,246,238,0.2)" }}>
                       Нажимая кнопку, ты соглашаешься с обработкой персональных данных
                     </p>
                   </motion.form>
